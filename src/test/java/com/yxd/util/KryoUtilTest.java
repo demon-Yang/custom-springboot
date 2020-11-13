@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * @Description：
+ * @Description：kryo序列化测试
  * @Date 2020/11/13 16:20
  * @Author YXD
  * @Version 1.0
