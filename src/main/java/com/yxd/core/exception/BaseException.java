@@ -1,6 +1,6 @@
-package com.yxd.exception;
+package com.yxd.core.exception;
 
-import com.yxd.util.LogbackUtil;
+import com.yxd.core.util.LogbackUtil;
 
 /**
  * @Description：自定义异常类

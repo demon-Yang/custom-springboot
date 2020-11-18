@@ -1,4 +1,4 @@
-package com.yxd.exception;
+package com.yxd.core.exception;
 
 import org.junit.jupiter.api.Test;
 
