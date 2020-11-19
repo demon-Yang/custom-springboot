@@ -1,5 +1,7 @@
 package com.yxd.core.util;
 
+import com.yxd.core.exception.BaseException;
+
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,13 +16,13 @@ import java.nio.file.Paths;
 public class BannerUtil {
     private static final String BANNERURL = "banner.txt";
 
-    public static void printBanner() {
+    public static void printBanner() throws BaseException {
         try {
             URL url = Thread.currentThread().getContextClassLoader().getResource(BANNERURL);
             Path path = Paths.get(url.toURI());
             Files.lines(path).forEach(System.out::println);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BaseException(e.getMessage());
         }
     }
 }
