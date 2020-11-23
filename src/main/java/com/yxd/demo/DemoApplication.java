@@ -1,5 +1,6 @@
 package com.yxd.demo;
 
+import com.yxd.core.ApplicationContext;
 import com.yxd.core.annotation.boot.SpringBootApplication;
 
 /**
@@ -12,6 +13,6 @@ import com.yxd.core.annotation.boot.SpringBootApplication;
 @SpringBootApplication
 public class DemoApplication {
     public static void main(String[] args) {
-
+        ApplicationContext.run(DemoApplication.class);
     }
 }

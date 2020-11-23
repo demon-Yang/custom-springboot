@@ -16,13 +16,13 @@ import java.nio.file.Paths;
 public class BannerUtil {
     private static final String BANNERURL = "banner.txt";
 
-    public static void printBanner() throws BaseException {
+    public static void printBanner() {
         try {
             URL url = Thread.currentThread().getContextClassLoader().getResource(BANNERURL);
             Path path = Paths.get(url.toURI());
             Files.lines(path).forEach(System.out::println);
         } catch (Exception e) {
-            throw new BaseException(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

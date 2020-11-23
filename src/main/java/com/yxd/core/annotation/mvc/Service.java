@@ -3,15 +3,14 @@ package com.yxd.core.annotation.mvc;
 import java.lang.annotation.*;
 
 /**
- * @Description：springmvc控制层注解
- * @Date 2020/11/18 22:25
+ * @Description：springmvc服务层注解
+ * @Date 2020/11/23 21:52
  * @Author YXD
  * @Version 1.0
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Inherited
-public @interface RestController {
+public @interface Service {
     String value() default "";
 }
