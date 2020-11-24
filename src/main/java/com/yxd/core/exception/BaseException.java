@@ -8,7 +8,7 @@ import com.yxd.core.util.LogbackUtil;
  * @Author YXD
  * @Version 1.0
  */
-public class BaseException extends Exception {
+public class BaseException extends RuntimeException {
     public BaseException(String message) {
         super(message);
         LogbackUtil.error(message);

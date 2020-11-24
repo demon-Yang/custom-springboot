@@ -4,6 +4,7 @@ import com.yxd.core.annotation.mvc.GetMapping;
 import com.yxd.core.annotation.mvc.PostMapping;
 import com.yxd.core.annotation.mvc.RestController;
 import com.yxd.core.constant.SystemContants;
+import com.yxd.core.exception.BaseException;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -22,18 +23,18 @@ public class RouteFactory {
     private static final Map<String, Method> POST_MAP = new ConcurrentHashMap<>();
 
     public static void loadRoute() {
-        Set<Class<?>> restControllers = ClassFactory.CLASSES.get(SystemContants.REST_CONTROLLER);
-        for (Class<?> restClass : restControllers) {
-            RestController restController = restClass.getAnnotation(RestController.class);
+        Set<Class<?>> controllerClasses = ClassFactory.CLASSES.get(SystemContants.REST_CONTROLLER);
+        for (Class<?> controllerClass : controllerClasses) {
+            RestController restController = controllerClass.getAnnotation(RestController.class);
             String baseUrl = restController.value();
-            Method[] methods = restClass.getDeclaredMethods();
+            Method[] methods = controllerClass.getDeclaredMethods();
             for (Method method : methods) {
                 if (method.isAnnotationPresent(GetMapping.class)) {
                     GetMapping getMapping = method.getAnnotation(GetMapping.class);
                     if (Objects.nonNull(getMapping)) {
                         String url = baseUrl + getMapping.value();
                         if (GET_MAP.containsKey(url)) {
-                            throw new IllegalArgumentException(String.format("duplicate http.get url: %s", url));
+                            throw new BaseException(String.format("duplicate http.get url: %s", url));
                         }
                         GET_MAP.put(url, method);
                     }
@@ -41,7 +42,7 @@ public class RouteFactory {
                     PostMapping postMapping = method.getAnnotation(PostMapping.class);
                     String url = baseUrl + postMapping.value();
                     if (POST_MAP.containsKey(url)) {
-                        throw new IllegalArgumentException(String.format("duplicate http.post url: %s", url));
+                        throw new BaseException(String.format("duplicate http.post url: %s", url));
                     }
                     POST_MAP.put(baseUrl + postMapping.value(), method);
                 }

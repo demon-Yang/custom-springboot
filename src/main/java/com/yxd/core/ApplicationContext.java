@@ -1,6 +1,7 @@
 package com.yxd.core;
 
 import com.yxd.core.annotation.boot.ComponentScan;
+import com.yxd.core.factory.BeanFactory;
 import com.yxd.core.factory.ClassFactory;
 import com.yxd.core.factory.RouteFactory;
 import com.yxd.core.util.BannerUtil;
@@ -22,6 +23,10 @@ public class ApplicationContext {
         ClassFactory.loadClass(packageNames);
         //获取mvc模式的路径映射
         RouteFactory.loadRoute();
+        //实例化注解的类
+        BeanFactory.loadBean();
+        //设置拦截器
+
     }
 
     private static String[] obtainPackageNames(Class<?> applicationClass) {
