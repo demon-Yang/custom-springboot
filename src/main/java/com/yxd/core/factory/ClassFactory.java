@@ -1,5 +1,6 @@
 package com.yxd.core.factory;
 
+import com.yxd.core.annotation.aop.Aspect;
 import com.yxd.core.annotation.mvc.RestController;
 import com.yxd.core.annotation.mvc.Service;
 import com.yxd.core.constant.SystemContants;
@@ -21,7 +22,9 @@ public class ClassFactory {
     public static void loadClass(String[] packageNames) {
         Set<Class<?>> restControllers = ReflectionUtil.scanAnnotationClass(packageNames, RestController.class);
         Set<Class<?>> services = ReflectionUtil.scanAnnotationClass(packageNames, Service.class);
+        Set<Class<?>> aspects = ReflectionUtil.scanAnnotationClass(packageNames, Aspect.class);
         CLASSES.put(SystemContants.REST_CONTROLLER, restControllers);
         CLASSES.put(SystemContants.SERVICE, services);
+        CLASSES.put(SystemContants.ASPECT, aspects);
     }
 }

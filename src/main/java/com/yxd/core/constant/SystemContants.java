@@ -16,5 +16,9 @@ public class SystemContants {
     /**
      * 注解类service
      */
-    public static final String  SERVICE= "service";
+    public static final String  SERVICE = "service";
+    /**
+     * 注解类aspect
+     */
+    public static final String ASPECT = "aspect";
 }

@@ -1,4 +1,6 @@
-package com.yxd.core.intercept;
+package com.yxd.core.aop.intercept;
+
+import com.yxd.core.aop.entity.MethodInvocation;
 
 /**
  * @Description：拦截器的抽象父类
@@ -7,7 +9,7 @@ package com.yxd.core.intercept;
  * @Version 1.0
  */
 public abstract class Interceptor {
-    private int order = 0;
+    private int order = -1;
 
     public int getOrder() {
         return order;
@@ -15,6 +17,11 @@ public abstract class Interceptor {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public boolean supports(Object bean) {
+        //拦截器是否拦截该类，默认不拦截
+        return false;
     }
 
     public abstract Object intercept(MethodInvocation methodInvocation);

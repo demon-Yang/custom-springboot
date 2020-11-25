@@ -65,7 +65,7 @@ public class ReflectionUtil {
      * @param args
      * @return
      */
-    public static Object executeTargetMethod(Object targetObject, Method targetMethod, Object[] args) {
+    public static Object executeTargetMethod(Object targetObject, Method targetMethod, Object... args) {
         try {
             return targetMethod.invoke(targetObject, args);
         } catch (Exception e) {
