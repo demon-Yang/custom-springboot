@@ -1,6 +1,7 @@
 package com.yxd.core.factory;
 
 import com.yxd.core.constant.SystemContants;
+import com.yxd.core.proxy.ProxyProcessor;
 import com.yxd.core.util.ReflectionUtil;
 
 import java.util.Map;
@@ -28,5 +29,15 @@ public class BeanFactory {
             Object instance = ReflectionUtil.newInstance(serviceClass);
             BEANS.put(serviceClass.getName(), instance);
         }
+    }
+
+    /**
+     * 动态代理有被拦截的类
+     */
+    public static void beanAfterProcessor() {
+        BEANS.replaceAll((beanName, beanInstance) -> {
+            ProxyProcessor proxyProcessor = ProxyFactory.chooseStrategy(beanInstance.getClass());
+            return proxyProcessor.delegateBean(beanInstance);
+        });
     }
 }

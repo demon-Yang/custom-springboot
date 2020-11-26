@@ -14,11 +14,11 @@ import com.yxd.core.util.LogbackUtil;
 @Order(0)
 public class DemoAspect {
 
-    @Pointcut("com.yxd.demo.*.*controller")
+    @Pointcut("com.yxd.demo.*.*Controller*")
     void controllerPointcut() {
     }
 
-    @Pointcut("com.yxd.demo.*.*service")
+    @Pointcut("com.yxd.demo.*.*Service*")
     void servicePointcut() {
     }
 

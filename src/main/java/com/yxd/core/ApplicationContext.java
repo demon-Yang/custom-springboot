@@ -28,8 +28,15 @@ public class ApplicationContext {
         BeanFactory.loadBean();
         //设置拦截器和AOP
         InterceptFactory.loadIntercept(packageNames);
+        //有被拦截的，动态生成类
+        BeanFactory.beanAfterProcessor();
     }
 
+    /**
+     * 获取需要的扫描包
+     * @param applicationClass
+     * @return
+     */
     private static String[] obtainPackageNames(Class<?> applicationClass) {
         ComponentScan componentScan = applicationClass.getAnnotation(ComponentScan.class);
         return !Objects.isNull(componentScan) ? componentScan.value()

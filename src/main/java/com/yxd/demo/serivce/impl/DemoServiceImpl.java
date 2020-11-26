@@ -11,4 +11,8 @@ import com.yxd.demo.serivce.DemoService;
  */
 @Service
 public class DemoServiceImpl implements DemoService {
+    @Override
+    public void testGetMapping() {
+
+    }
 }
