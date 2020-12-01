@@ -1,8 +1,10 @@
 package com.yxd.demo.controller;
 
+import com.yxd.core.annotation.ioc.Autowired;
 import com.yxd.core.annotation.mvc.GetMapping;
 import com.yxd.core.annotation.mvc.PostMapping;
 import com.yxd.core.annotation.mvc.RestController;
+import com.yxd.demo.serivce.DemoService;
 
 /**
  * @Description：demo控制层
@@ -13,9 +15,16 @@ import com.yxd.core.annotation.mvc.RestController;
 @RestController("/demo")
 public class DemoController {
 
+    @Autowired
+    private DemoService demoService;
+
     @GetMapping("/testGet")
-    public void testGetMapping() {}
+    public void testGetMapping() {
+        demoService.testGetMapping();
+    }
 
     @PostMapping("/testPost")
-    public void testPostMapping() {}
+    public void testPostMapping() {
+        demoService.testGetMapping();
+    }
 }

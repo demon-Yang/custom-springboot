@@ -1,10 +1,7 @@
 package com.yxd.core;
 
 import com.yxd.core.annotation.boot.ComponentScan;
-import com.yxd.core.factory.BeanFactory;
-import com.yxd.core.factory.ClassFactory;
-import com.yxd.core.factory.InterceptFactory;
-import com.yxd.core.factory.RouteFactory;
+import com.yxd.core.factory.*;
 import com.yxd.core.util.BannerUtil;
 
 import java.util.Objects;
@@ -28,8 +25,10 @@ public class ApplicationContext {
         BeanFactory.loadBean();
         //设置拦截器和AOP
         InterceptFactory.loadIntercept(packageNames);
+        //依赖注入
+        DIFactory.initBean(packageNames);
         //有被拦截的，动态生成类
-        BeanFactory.beanAfterProcessor();
+        //BeanFactory.beanAfterProcessor();
     }
 
     /**

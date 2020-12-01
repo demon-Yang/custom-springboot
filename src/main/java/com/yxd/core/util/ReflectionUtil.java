@@ -1,12 +1,11 @@
 package com.yxd.core.util;
 
-import com.yxd.core.exception.BaseException;
 import org.reflections8.Reflections;
 import org.reflections8.scanners.SubTypesScanner;
 import org.reflections8.scanners.TypeAnnotationsScanner;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -52,9 +51,9 @@ public class ReflectionUtil {
         try {
             return cls.newInstance();
         } catch (Exception e) {
-            throw new BaseException(e.getMessage());
+            e.printStackTrace();
+            return null;
         }
-
     }
 
     /**
@@ -69,7 +68,23 @@ public class ReflectionUtil {
         try {
             return targetMethod.invoke(targetObject, args);
         } catch (Exception e) {
-            throw new BaseException(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 设置类属性的对象
+     * @param obj
+     * @param field
+     * @param value
+     */
+    public static void setField(Object obj, Field field, Object value) {
+        field.setAccessible(true);
+        try {
+            field.set(obj, value);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
