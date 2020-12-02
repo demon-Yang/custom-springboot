@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Description：依赖注入实例
@@ -18,25 +19,45 @@ import java.util.Set;
  * @Version 1.0
  */
 public class DIFactory {
-    public static void initBean(String[] packageNames) {
+
+    private final String[] packageNames;
+
+    //二级缓存（解决循环依赖问题）
+    private static final Map<String, Object> SINGLETON_OBJECTS = new ConcurrentHashMap<>();
+
+    public DIFactory(String[] packageNames) {
+        this.packageNames = packageNames;
+    }
+
+    /**
+     * 依赖注入
+     */
+    public void inject() {
         Map<String, Object> beans = BeanFactory.BEANS;
         beans.values().forEach(object -> {
-            Field[] fields = object.getClass().getDeclaredFields();
-            Arrays.stream(fields).forEach(field -> {
-                Object autowiredObject = obtainAutowiredObject(packageNames, field);
-                ProxyProcessor proxyProcessor = ProxyFactory.chooseStrategy(autowiredObject.getClass());
-                ReflectionUtil.setField(object, field, proxyProcessor.delegateBean(autowiredObject));
-            });
+            initBean(object);
+        });
+    }
+
+    public void initBean(Object beanInstance) {
+        Field[] fields = beanInstance.getClass().getDeclaredFields();
+        Arrays.stream(fields).forEach(field -> {
+            Object beanFieldInstance = obtainAutowiredObject(packageNames, field);
+            // 解决循环依赖问题
+            beanFieldInstance = resolveCircularDependency(beanInstance, beanFieldInstance);
+            ProxyProcessor proxyProcessor = ProxyFactory.chooseStrategy(beanFieldInstance.getClass());
+            ReflectionUtil.setField(beanInstance, field, proxyProcessor.delegateBean(beanFieldInstance));
         });
     }
 
     /**
      * 获取自动注入的实例
+     *
      * @param packageNames
      * @param field
      * @return
      */
-    public static Object obtainAutowiredObject(String[] packageNames, Field field) {
+    public Object obtainAutowiredObject(String[] packageNames, Field field) {
         Class<?> fieldClass = field.getType();
         String beanName = fieldClass.getName();
         if (field.isAnnotationPresent(Autowired.class)) {
@@ -44,10 +65,10 @@ public class DIFactory {
             if (subClasses.size() == 0) {
                 throw new BaseException(fieldClass.getName() + "is interface and do not have implemented class exception");
             } else if (subClasses.size() == 1) {
-                beanName =  subClasses.iterator().next().getName();
+                beanName = subClasses.iterator().next().getName();
             } else {
                 Qualifier qualifier = subClasses.getClass().getDeclaredAnnotation(Qualifier.class);
-                beanName =  qualifier == null ? beanName : qualifier.value();
+                beanName = qualifier == null ? beanName : qualifier.value();
             }
         }
         Object instance = BeanFactory.BEANS.get(beanName);
@@ -56,4 +77,17 @@ public class DIFactory {
         }
         return instance;
     }
-}
+
+    /**
+     * 二级缓存解决循环依赖问题
+     */
+    private Object resolveCircularDependency(Object beanInstance, Object beanFieldInstance) {
+        String beanFieldName = beanFieldInstance.getClass().getName();
+        if (SINGLETON_OBJECTS.containsKey(beanFieldName)) {
+            beanFieldInstance = SINGLETON_OBJECTS.get(beanFieldName);
+        } else {
+            SINGLETON_OBJECTS.put(beanFieldName, beanFieldInstance);
+            initBean(beanInstance);
+        }
+        return beanFieldInstance;
+    }}

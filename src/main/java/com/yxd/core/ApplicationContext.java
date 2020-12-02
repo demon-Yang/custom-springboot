@@ -26,7 +26,8 @@ public class ApplicationContext {
         //设置拦截器和AOP
         InterceptFactory.loadIntercept(packageNames);
         //依赖注入
-        DIFactory.initBean(packageNames);
+        DIFactory diFactory = new DIFactory(packageNames);
+        diFactory.inject();
         //有被拦截的，动态生成类
         //BeanFactory.beanAfterProcessor();
     }
