@@ -8,4 +8,6 @@ package com.yxd.demo.serivce;
  */
 public interface DemoService {
     String testGetMapping();
+
+    String testPostMapping();
 }

@@ -11,11 +11,22 @@ import com.yxd.core.util.LogbackUtil;
  * @Version 1.0
  */
 public class DemoInterceptor extends Interceptor {
+
+    @Override
+    public void setOrder(int order) {
+        super.setOrder(1);
+    }
+
+    @Override
+    public boolean supports(Object bean) {
+        return true;
+    }
+
     @Override
     public Object intercept(MethodInvocation methodInvocation) {
-        LogbackUtil.info("拦截类: {}", methodInvocation.getTargetObject());
-        LogbackUtil.info("拦截方法: {}", methodInvocation.getTargetMethod());
-        LogbackUtil.info("拦截参数: {}", methodInvocation.getArgs());
+        LogbackUtil.info("Interceptor拦截类: {}", methodInvocation.getTargetObject());
+        LogbackUtil.info("Interceptor拦截方法: {}", methodInvocation.getTargetMethod());
+        LogbackUtil.info("Interceptor拦截参数: {}", methodInvocation.getArgs());
         Object result = methodInvocation.proceed();
         return result;
     }

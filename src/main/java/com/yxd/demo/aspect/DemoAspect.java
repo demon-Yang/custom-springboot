@@ -23,17 +23,19 @@ public class DemoAspect {
     }
 
     @Before
-    void before(JoinPoint joinPoint) {
-        LogbackUtil.info("拦截类: {}", joinPoint.getTargetObject());
-        LogbackUtil.info("拦截方法: {}", joinPoint.getTargetMethod());
-        LogbackUtil.info("拦截参数: {}", joinPoint.getArgs());
+    public void before(JoinPoint joinPoint) {
+        LogbackUtil.info("----before---");
+        LogbackUtil.info("aspect拦截类: {}", joinPoint.getTargetObject());
+        LogbackUtil.info("aspect拦截方法: {}", joinPoint.getTargetMethod());
+        LogbackUtil.info("aspect拦截参数: {}", joinPoint.getArgs());
     }
 
     @After
-    void after(Object result, JoinPoint joinPoint) {
-        LogbackUtil.info("返回结果: {}", result);
-        LogbackUtil.info("拦截类: {}", joinPoint.getTargetObject());
-        LogbackUtil.info("拦截方法: {}", joinPoint.getTargetMethod());
-        LogbackUtil.info("拦截参数: {}", joinPoint.getArgs());
+    public void after(Object result, JoinPoint joinPoint) {
+        LogbackUtil.info("----after---");
+        LogbackUtil.info("aspect返回结果: {}", result);
+        LogbackUtil.info("aspect拦截类: {}", joinPoint.getTargetObject());
+        LogbackUtil.info("aspect拦截方法: {}", joinPoint.getTargetMethod());
+        LogbackUtil.info("aspect拦截参数: {}", joinPoint.getArgs());
     }
 }

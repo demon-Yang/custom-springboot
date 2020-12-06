@@ -25,6 +25,6 @@ public class DemoController {
 
     @PostMapping("/testPost")
     public String testPostMapping() {
-        return "DemoController testPost";
+        return demoService.testPostMapping();
     }
 }

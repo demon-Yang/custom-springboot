@@ -1,6 +1,7 @@
 package com.yxd.demo.serivce.impl;
 
 import com.yxd.core.annotation.mvc.Service;
+import com.yxd.core.util.LogbackUtil;
 import com.yxd.demo.serivce.DemoService;
 
 /**
@@ -13,6 +14,13 @@ import com.yxd.demo.serivce.DemoService;
 public class DemoServiceImpl implements DemoService {
     @Override
     public String testGetMapping() {
-        return "DemoServiceImpl testGetMapping";
+        LogbackUtil.info("---调用testGetMapping方法---");
+        return "调用testGetMapping方法";
+    }
+
+    @Override
+    public String testPostMapping() {
+        LogbackUtil.info("---调用testPostMapping方法---");
+        return "调用testPostMapping方法";
     }
 }

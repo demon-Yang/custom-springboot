@@ -41,10 +41,10 @@ public class RequestHandler {
             Class<?> declaringClass = targetMethod.getDeclaringClass();
             targetObject = BeanFactory.BEANS.get(declaringClass.getName());
             if (targetMethod.getReturnType() == void.class) {
-                ReflectionUtil.executeTargetMethodNotResult(targetObject, targetMethod, targetMethodParams.toArray());
+                ReflectionUtil.executeTargetMethodNotResult(targetObject, targetMethod, null);
                 return buildSuccessResponse(null);
             }
-            return buildSuccessResponse(ReflectionUtil.executeTargetMethod(targetObject, targetMethod, targetMethodParams.toArray()));
+            return buildSuccessResponse(ReflectionUtil.executeTargetMethod(targetObject, targetMethod, null));
         }
         return buildErrorResponse();
     }

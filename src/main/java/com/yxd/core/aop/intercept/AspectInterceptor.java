@@ -58,16 +58,16 @@ public class AspectInterceptor extends Interceptor {
         //前置通知
         beforeMethods.forEach(method ->
                 ReflectionUtil.executeTargetMethodNotResult(
-                        methodInvocation.getTargetObject(),
-                        methodInvocation.getTargetMethod(),
+                        adviceBean,
+                        method,
                         joinPoint));
         //正式执行
         Object result = methodInvocation.proceed();
         //后置通知
         afterMethods.forEach(method ->
                 ReflectionUtil.executeTargetMethodNotResult(
-                        methodInvocation.getTargetObject(),
-                        methodInvocation.getTargetMethod(),
+                        adviceBean,
+                        method,
                         result, joinPoint));
         return result;
     }
