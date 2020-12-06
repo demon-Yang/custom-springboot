@@ -74,6 +74,22 @@ public class ReflectionUtil {
     }
 
     /**
+     * 执行目标方法，无返回值
+     *
+     * @param targetObject
+     * @param targetMethod
+     * @param args
+     * @return
+     */
+    public static void executeTargetMethodNotResult(Object targetObject, Method targetMethod, Object... args) {
+        try {
+            targetMethod.invoke(targetObject, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 设置类属性的对象
      * @param obj
      * @param field

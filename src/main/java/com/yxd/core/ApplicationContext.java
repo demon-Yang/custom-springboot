@@ -2,6 +2,7 @@ package com.yxd.core;
 
 import com.yxd.core.annotation.boot.ComponentScan;
 import com.yxd.core.factory.*;
+import com.yxd.core.sever.HttpServer;
 import com.yxd.core.util.BannerUtil;
 
 import java.util.Objects;
@@ -30,6 +31,8 @@ public class ApplicationContext {
         diFactory.inject();
         //有被拦截的，动态生成类
         //BeanFactory.beanAfterProcessor();
+        //开启http服务器
+        HttpServer.start();
     }
 
     /**

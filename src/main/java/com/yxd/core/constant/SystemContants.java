@@ -21,4 +21,12 @@ public class SystemContants {
      * 注解类aspect
      */
     public static final String ASPECT = "aspect";
+    /**
+     * HTTP的GET方法
+     */
+    public static final String GET = "GET";
+    /**
+     * HTTP的POST方法
+     */
+    public static final String POST = "POST";
 }

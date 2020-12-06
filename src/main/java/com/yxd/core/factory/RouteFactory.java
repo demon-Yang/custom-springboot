@@ -19,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Version 1.0
  */
 public class RouteFactory {
-    private static final Map<String, Method> GET_MAP = new ConcurrentHashMap<>();
-    private static final Map<String, Method> POST_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, Method> GET_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, Method> POST_MAP = new ConcurrentHashMap<>();
 
     public static void loadRoute() {
         Set<Class<?>> controllerClasses = ClassFactory.CLASSES.get(SystemContants.REST_CONTROLLER);

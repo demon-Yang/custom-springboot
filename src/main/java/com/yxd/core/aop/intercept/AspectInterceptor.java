@@ -57,7 +57,7 @@ public class AspectInterceptor extends Interceptor {
         JoinPoint joinPoint = methodInvocation;
         //前置通知
         beforeMethods.forEach(method ->
-                ReflectionUtil.executeTargetMethod(
+                ReflectionUtil.executeTargetMethodNotResult(
                         methodInvocation.getTargetObject(),
                         methodInvocation.getTargetMethod(),
                         joinPoint));
@@ -65,7 +65,7 @@ public class AspectInterceptor extends Interceptor {
         Object result = methodInvocation.proceed();
         //后置通知
         afterMethods.forEach(method ->
-                ReflectionUtil.executeTargetMethod(
+                ReflectionUtil.executeTargetMethodNotResult(
                         methodInvocation.getTargetObject(),
                         methodInvocation.getTargetMethod(),
                         result, joinPoint));

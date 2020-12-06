@@ -7,5 +7,5 @@ package com.yxd.demo.serivce;
  * @Version 1.0
  */
 public interface DemoService {
-    void testGetMapping();
+    String testGetMapping();
 }

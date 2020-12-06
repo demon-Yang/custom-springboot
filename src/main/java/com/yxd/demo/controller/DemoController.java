@@ -19,12 +19,12 @@ public class DemoController {
     private DemoService demoService;
 
     @GetMapping("/testGet")
-    public void testGetMapping() {
-        demoService.testGetMapping();
+    public String testGetMapping() {
+        return demoService.testGetMapping();
     }
 
     @PostMapping("/testPost")
-    public void testPostMapping() {
-        demoService.testGetMapping();
+    public String testPostMapping() {
+        return "DemoController testPost";
     }
 }
