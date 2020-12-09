@@ -4,6 +4,7 @@ import com.yxd.core.annotation.ioc.Autowired;
 import com.yxd.core.annotation.mvc.GetMapping;
 import com.yxd.core.annotation.mvc.PostMapping;
 import com.yxd.core.annotation.mvc.RestController;
+import com.yxd.core.util.LogbackUtil;
 import com.yxd.demo.serivce.DemoService;
 
 /**
@@ -20,6 +21,13 @@ public class DemoController {
 
     @GetMapping("/testGet")
     public String testGetMapping() {
+        return demoService.testGetMapping();
+    }
+
+    @GetMapping("/testGetParam")
+    public String testGetParam(Long id, String name) {
+        LogbackUtil.info("---参数id：{}---", id);
+        LogbackUtil.info("---参数name：{}---", name);
         return demoService.testGetMapping();
     }
 

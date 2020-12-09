@@ -10,7 +10,7 @@ import io.netty.handler.codec.http.HttpUtil;
 import io.netty.util.AsciiString;
 
 /**
- * @Description：
+ * @Description：http请求的处理类
  * @Date 2020/12/06 14:57
  * @Author YXD
  * @Version 1.0

@@ -30,7 +30,7 @@ public class ApplicationContext {
         DIFactory diFactory = new DIFactory(packageNames);
         diFactory.inject();
         //有被拦截的，动态生成类
-        //BeanFactory.beanAfterProcessor();
+        BeanFactory.beanAfterProcessor();
         //开启http服务器
         HttpServer.start();
     }

@@ -4,19 +4,22 @@ import com.yxd.core.constant.SystemContants;
 import com.yxd.core.factory.BeanFactory;
 import com.yxd.core.factory.RouteFactory;
 import com.yxd.core.util.KryoUtil;
+import com.yxd.core.util.ParameterNameUtil;
+import com.yxd.core.util.PropertyEditorUtil;
 import com.yxd.core.util.ReflectionUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.*;
 import io.netty.util.AsciiString;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
- * @Description：
+ * @Description：GET POST请求处理
  * @Date 2020/12/06 16:10
  * @Author YXD
  * @Version 1.0
@@ -27,10 +30,11 @@ public class RequestHandler {
 
     public static FullHttpResponse handle(FullHttpRequest fullHttpRequest) {
         String requestUri = fullHttpRequest.uri();
+        //请求链接，不带参数
         String requestPath = getRequestPath(requestUri);
+        //请求参数map
         Map<String, String> queryParameterMap = getQueryParams(requestUri);
-        List<Object> targetMethodParams = new ArrayList<>();
-        Object targetObject;
+        //url请求映射的目标方法
         Method targetMethod = null;
         if (SystemContants.GET.equals(fullHttpRequest.method().name())) {
             targetMethod = RouteFactory.GET_MAP.get(requestPath);
@@ -38,13 +42,27 @@ public class RequestHandler {
             targetMethod = RouteFactory.POST_MAP.get(requestPath);
         }
         if (!Objects.isNull(targetMethod)) {
-            Class<?> declaringClass = targetMethod.getDeclaringClass();
-            targetObject = BeanFactory.BEANS.get(declaringClass.getName());
+            //映射的目标类
+            Object targetObject = BeanFactory.BEANS.get(targetMethod.getDeclaringClass().getName());
+            //映射的目标方法参数
+            Parameter[] parameters = targetMethod.getParameters();
+            String[] parameterNames = ParameterNameUtil.getMethodParameterNamesByAsm7(targetMethod);
+            List<Object> targetArgs = new ArrayList<>();
+            //只有基本类型参数处理
+            for (int i = 0; i < parameters.length; i++) {
+                String name = parameterNames[i];
+                String args = queryParameterMap.get(name);
+                if (args != null) {
+                    targetArgs.add(PropertyEditorUtil.convert(parameters[i].getType(), args));
+                } else {
+                    targetArgs.add(null);
+                }
+            }
             if (targetMethod.getReturnType() == void.class) {
-                ReflectionUtil.executeTargetMethodNotResult(targetObject, targetMethod, null);
+                ReflectionUtil.executeTargetMethodNotResult(targetObject, targetMethod, targetArgs.toArray());
                 return buildSuccessResponse(null);
             }
-            return buildSuccessResponse(ReflectionUtil.executeTargetMethod(targetObject, targetMethod, null));
+            return buildSuccessResponse(ReflectionUtil.executeTargetMethod(targetObject, targetMethod, targetArgs.toArray()));
         }
         return buildErrorResponse();
     }
